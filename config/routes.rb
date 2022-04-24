@@ -1,10 +1,11 @@
 Rails.application.routes.draw do
+  
   root "users#feed"
 
   devise_for :users
   
   resources :comments
-  resources :follow_requests
+  resources :follow_requests, only: [:create, :destroy, :update]
   resources :likes
   resources :photos
 

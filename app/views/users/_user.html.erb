@@ -50,6 +50,7 @@
       </div>
 
       <div class="col">
+      <% if user == current_user %>
         <%=
           link_to "#",
             data: { 
@@ -63,6 +64,7 @@
           
           pending
 
+        <% end %>
         <% end %>
       </div>
     </div>
@@ -126,6 +128,7 @@
   </div>
 </div>
 
+
 <%=
   render "users/connected_users_modal.html.erb",
     user: user,
@@ -149,3 +152,5 @@
     description: "pending",
     target: "#{dom_id(user)}_pending"
 %>
+
+

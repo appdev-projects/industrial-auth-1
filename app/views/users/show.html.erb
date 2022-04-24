@@ -3,17 +3,37 @@
     <%= render "users/user", user: @user %>
   </div>
 </div>
+<%# if @user.followers.include?(current_user) %>
+
+
+
+<%# if @user.followers.find_by!(username: current_user.username) %>
+<%#= true %>
+<%# else %> 
+<%#= false %>
+<%#end%>
+
+<%# @user.followers.each do |follower| %>
+<%#= follower.username %>
+<%# end%>
+<%# if @user.accepted_received_follow_requests.find_by(sender: current_user) == nil %>
+  
+<% if @user.private == false || @user.accepted_received_follow_requests.find_by(sender: current_user) != nil %>
 
 <div class="row mb-2">
   <div class="col-md-6 offset-md-3">
+  
     <%= render "users/profile_nav", user: @user %>
+    
   </div>
 </div>
 
 <% @user.own_photos.each do |photo| %>
   <div class="row mb-4">
     <div class="col-md-6 offset-md-3">
+    
       <%= render "photos/photo", photo: photo %>
+       <% end %>
     </div>
   </div>
 <% end %>
