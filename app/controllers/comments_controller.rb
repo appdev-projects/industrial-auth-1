@@ -1,5 +1,6 @@
 class CommentsController < ApplicationController
   before_action :set_comment, only: %i[ show edit update destroy ]
+  before_action :author_validation, only: %i[ edit update destroy ]
 
   # GET /comments or /comments.json
   def index
@@ -67,4 +68,10 @@ class CommentsController < ApplicationController
     def comment_params
       params.require(:comment).permit(:author_id, :photo_id, :body)
     end
+
+    def author_validation
+      if @photo.author != current_user
+        redirect_back fallback_location: root_path, alert: "Nice try"
+      end
+    end 
 end

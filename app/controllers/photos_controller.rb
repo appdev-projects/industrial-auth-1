@@ -1,5 +1,6 @@
 class PhotosController < ApplicationController
   before_action :set_photo, only: %i[ show edit update destroy ]
+  before_action :owner_validation, only:  %i[ edit update destroy ]
 
   # GET /photos or /photos.json
   def index
@@ -67,4 +68,10 @@ class PhotosController < ApplicationController
     def photo_params
       params.require(:photo).permit(:image, :comments_count, :likes_count, :caption, :owner_id)
     end
+
+    def owner_validation
+      if @photo.owner != current_user
+        redirect_back fallback_location: root_path, alert: "Nice try"
+      end
+    end 
 end
