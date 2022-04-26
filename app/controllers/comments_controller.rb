@@ -1,5 +1,13 @@
 class CommentsController < ApplicationController
   before_action :set_comment, only: %i[ show edit update destroy ]
+  before_action :ensure_owner_is_current_user, only:[:edit,:update,:destroy]
+
+  def ensure_owner_is_current_user
+    if @comment.author != current_user
+      #redirect_to root_path, alert:"Nice try,suckah"
+      redirect_back fallback_location: root_path, alert:"Nice try,suckah"
+    end
+  end
 
   # GET /comments or /comments.json
   def index
