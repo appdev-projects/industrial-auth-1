@@ -37,23 +37,31 @@ class CommentsController < ApplicationController
 
   # PATCH/PUT /comments/1 or /comments/1.json
   def update
-    respond_to do |format|
-      if @comment.update(comment_params)
-        format.html { redirect_to root_url, notice: "Comment was successfully updated." }
-        format.json { render :show, status: :ok, location: @comment }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @comment.errors, status: :unprocessable_entity }
+    if current_user == @comment.author
+      respond_to do |format|
+        if @comment.update(comment_params)
+          format.html { redirect_to root_url, notice: "Comment was successfully updated." }
+          format.json { render :show, status: :ok, location: @comment }
+        else
+          format.html { render :edit, status: :unprocessable_entity }
+          format.json { render json: @comment.errors, status: :unprocessable_entity }
+        end
       end
+    else
+      redirect_to root_url, notice: "That ain't your comment."
     end
   end
 
   # DELETE /comments/1 or /comments/1.json
   def destroy
-    @comment.destroy
-    respond_to do |format|
-      format.html { redirect_back fallback_location: root_url, notice: "Comment was successfully destroyed." }
-      format.json { head :no_content }
+    if current_user == @comment.author
+      @comment.destroy
+      respond_to do |format|
+        format.html { redirect_back fallback_location: root_url, notice: "Comment was successfully destroyed." }
+        format.json { head :no_content }
+      end
+    else
+      redirect_to root_url, notice: "Back off buster, this ain't your comment."
     end
   end
 
