@@ -35,6 +35,11 @@ ActiveRecord::Schema[7.0].define(version: 2021_04_21_125820) do
     t.index ["sender_id"], name: "index_follow_requests_on_sender_id"
   end
 
+  create_table "friends", id: :serial, force: :cascade do |t|
+    t.text "name", null: false
+    t.integer "age", null: false
+  end
+
   create_table "likes", force: :cascade do |t|
     t.bigint "fan_id", null: false
     t.bigint "photo_id", null: false
