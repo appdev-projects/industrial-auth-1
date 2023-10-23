@@ -2,7 +2,8 @@ class LikesController < ApplicationController
   before_action :set_like, only: %i[ show edit update destroy ]
 
   before_action :is_authorized, only: [:destroy, :create]
-
+  include Pundit
+  after_action :verify_authorized, except: [:home]
   def is_authorized
     if !@like.owner.private? || current_user.leaders.include?(@like.owner)|| @like.owner ==current_user 
       redirect_back(fallback_location: root_url, alert: "not authorized")
