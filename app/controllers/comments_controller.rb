@@ -24,19 +24,25 @@ class CommentsController < ApplicationController
     @comment = Comment.new(comment_params)
     @comment.author = current_user
 
-    respond_to do |format|
-      if @comment.save
-        format.html { redirect_back fallback_location: root_path, notice: "Comment was successfully created." }
-        format.json { render :show, status: :created, location: @comment }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @comment.errors, status: :unprocessable_entity }
+    if @comment.author = current_user
+      respond_to do |format|
+        if @comment.save
+          format.html { redirect_back fallback_location: root_path, notice: "Comment was successfully created." }
+          format.json { render :show, status: :created, location: @comment }
+        else
+          format.html { render :new, status: :unprocessable_entity }
+          format.json { render json: @comment.errors, status: :unprocessable_entity }
+        end
       end
+    else
+      redirect_back(fallback_location: root_url, alert: "You cannot edit comments from others!")
     end
   end
 
   # PATCH/PUT /comments/1 or /comments/1.json
   def update
+
+    if @comment.author == current_user
     respond_to do |format|
       if @comment.update(comment_params)
         format.html { redirect_to root_url, notice: "Comment was successfully updated." }
@@ -46,6 +52,10 @@ class CommentsController < ApplicationController
         format.json { render json: @comment.errors, status: :unprocessable_entity }
       end
     end
+  else
+    redirect_back(fallback_location: root_url, alert: "Tsk, tsk! No editing other's comments!!")
+  end
+
   end
 
   # DELETE /comments/1 or /comments/1.json
@@ -58,13 +68,14 @@ class CommentsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_comment
-      @comment = Comment.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def comment_params
-      params.require(:comment).permit(:author_id, :photo_id, :body)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_comment
+    @comment = Comment.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def comment_params
+    params.require(:comment).permit(:author_id, :photo_id, :body)
+  end
 end
