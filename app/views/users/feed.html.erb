@@ -1,13 +1,13 @@
 <% if current_user == @user %>
-<div class="row mb-4">
-  <div class="col-md-6 offset-md-3">
-    <h1 class="display-4">
-      feed
-    </h1>
+  <div class="row mb-4">
+    <div class="col-md-6 offset-md-3">
+      <h1 class="display-4">
+        feed
+      </h1>
 
-    <p class="lead text-muted">posts by people you follow</p>
+      <p class="lead text-muted">posts by people you follow</p>
+    </div>
   </div>
-</div>
 
   <% @user.feed.each do |photo| %>
     <div class="row mb-4">
@@ -16,4 +16,8 @@
       </div>
     </div>
   <% end %>
+<% else %>
+  <div class="alert alert-danger" role="alert">
+    You are not authorized to view this page
+  </div>
 <% end %>
