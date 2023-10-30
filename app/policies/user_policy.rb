@@ -5,6 +5,9 @@ class UserPolicy < ApplicationPolicy
     @current_user = current_user
     @user = user
   end
+  def discover?
+    true  
+  end
 
   def feed?
     true
