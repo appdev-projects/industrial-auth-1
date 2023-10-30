@@ -1,9 +1,7 @@
 class PhotosController < ApplicationController
   before_action :set_photo, only: %i[ show edit update destroy ]
   before_action :ensure_current_user_is_owner, only: [:destroy, :update, :edit]
-  # before_action :ensure_user_is_authorized, only: [:show]
-
-
+  
   # GET /photos or /photos.json
   def index
     @photos = Photo.all
@@ -54,33 +52,33 @@ class PhotosController < ApplicationController
 
   # DELETE /photos/1 or /photos/1.json
   def destroy
-    @photo.destroy
-    respond_to do |format|
-      format.html { redirect_back fallback_location: root_url, notice: "Photo was successfully destroyed." }
-      format.json { head :no_content }
+    if current_user == @photo.owner
+      @photo.destroy
+
+      respond_to do |format|
+        format.html { redirect_back fallback_location: root_url, notice: "Photo was successfully destroyed." }
+        format.json { head :no_content }
+      end
+    else
+      redirect_back(fallback_location: root_url, notice: "Nice try, but that is not your photo.")
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_photo
-      @photo = Photo.find(params[:id])
-    end
 
-    def ensure_current_user_is_owner
-      if current_user != @photo.owner
-        redirect_back fallback_location: root_url, alert: "You're not authorized for that."
-      end
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_photo
+    @photo = Photo.find(params[:id])
+  end
 
-    # def ensure_user_is_authorized
-    #   if !PhotoPolicy.new(current_user, @photo).show?
-    #     raise Pundit::NotAuthorizedError, "not allowed"
-    #   end
-    # end
-
-    # Only allow a list of trusted parameters through.
-    def photo_params
-      params.require(:photo).permit(:image, :comments_count, :likes_count, :caption, :owner_id)
+  def ensure_current_user_is_owner
+    if current_user != @photo.owner
+      redirect_back fallback_location: root_url, alert: "You're not authorized for that."
     end
+  end
+
+  # Only allow a list of trusted parameters through.
+  def photo_params
+    params.require(:photo).permit(:image, :comments_count, :likes_count, :caption, :owner_id)
+  end
 end
