@@ -1,4 +1,4 @@
-class PhotoPolicy < ApplicationPolicy
+class PhotoPolicy
   attr_reader :user, :photo
 
   def initialize(user, photo)
@@ -6,9 +6,17 @@ class PhotoPolicy < ApplicationPolicy
     @photo = photo
   end
 
+  def new?
+    user.present?
+  end
+
+  def create?
+    new?
+  end
+
   def show?
     user == photo.owner ||
-    !photo.owner.private? ||
-    photo.owner.followers.include?(user)
+      !photo.owner.private? ||
+      photo.owner.followers.include?(user)
   end
 end

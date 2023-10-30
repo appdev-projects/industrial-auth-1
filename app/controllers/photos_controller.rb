@@ -13,8 +13,11 @@ class PhotosController < ApplicationController
   end
 
   # GET /photos/new
+ 
+
   def new
     @photo = Photo.new
+    authorize @photo  
   end
 
   # GET /photos/1/edit
@@ -25,6 +28,7 @@ class PhotosController < ApplicationController
   def create
     @photo = Photo.new(photo_params)
     @photo.owner = current_user
+    authorize @photo
 
     respond_to do |format|
       if @photo.save
