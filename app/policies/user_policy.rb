@@ -16,6 +16,11 @@ class UserPolicy
      !user.private? || 
      user.followers.include?(current_user)
   end
-
+  def liked?
+    user.present?
+  end
+  def discover?
+    user.present?
+  end
   
 end

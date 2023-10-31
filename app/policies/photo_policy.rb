@@ -6,4 +6,20 @@ class PhotoPolicy
     @user = user
     @photo = photo
   end
+
+  def new?
+    user.present?
+  end
+
+  def create?
+    new?
+  end
+  
+  def show?
+    user.present?
+  end
+  
+  def liked?
+    user.present?
+  end
 end
