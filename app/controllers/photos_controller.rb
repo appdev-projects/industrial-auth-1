@@ -6,7 +6,7 @@ class PhotosController < ApplicationController
   before_action :ensure_user_is_authorized, only: [:show]
 
   before_action :ensure_user_is_authorized, only: [:show]
-  include Pundit
+
   after_action :verify_authorized, except: [:home]
   def ensure_current_user_is_owner
     if current_user != @photo.owner
@@ -37,6 +37,8 @@ class PhotosController < ApplicationController
 
   # GET /photos/1/edit
   def edit
+
+    authorize @photo
   end
 
   # POST /photos or /photos.json
@@ -70,6 +72,7 @@ class PhotosController < ApplicationController
 
   # DELETE /photos/1 or /photos/1.json
   def destroy
+    authorize @photo
     @photo.destroy
     respond_to do |format|
       format.html { redirect_back fallback_location: root_url, notice: "Photo was successfully destroyed." }

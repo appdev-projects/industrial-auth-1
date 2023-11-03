@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  include Pundit
+ 
   before_action :set_user, only: %i[ show liked feed followers following discover ]
   
   before_action { authorize(@user || User) }
