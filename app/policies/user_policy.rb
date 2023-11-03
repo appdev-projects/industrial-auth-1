@@ -18,4 +18,11 @@ class UserPolicy < ApplicationPolicy
      !user.private? || 
      user.followers.include?(current_user)
   end
+
+  def liked?
+    user == current_user ||
+     !user.private? || 
+     user.followers.include?(current_user)
+  end
+
 end
