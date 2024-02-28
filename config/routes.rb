@@ -4,10 +4,10 @@ Rails.application.routes.draw do
   devise_for :users
   
   resources :comments
-  resources :follow_requests
-  resources :likes
-  resources :photos
-
+  resources :follow_requests, except: [:index, :show, :new, :edit]
+  resources :likes, only: [:create, :destroy]
+  resources :photos, except: [:index]
+  
   get ":username" => "users#show", as: :user
   get ":username/liked" => "users#liked", as: :liked
   get ":username/feed" => "users#feed", as: :feed
@@ -15,3 +15,7 @@ Rails.application.routes.draw do
   get ":username/followers" => "users#followers", as: :followers
   get ":username/following" => "users#following", as: :following
 end
+
+
+
+# adding this so this, uh, is technically different from the main branch

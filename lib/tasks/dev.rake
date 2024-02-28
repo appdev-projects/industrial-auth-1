@@ -15,7 +15,7 @@ task sample_data: :environment do
     }
   end
 
-  people << { first_name: "Alice", last_name: "Smith" }
+  people << { first_name: "Alice", last_name: "Smith", private: true }
   people << { first_name: "Bob", last_name: "Smith" }
   people << { first_name: "Carol", last_name: "Smith" }
   people << { first_name: "Doug", last_name: "Smith" }
