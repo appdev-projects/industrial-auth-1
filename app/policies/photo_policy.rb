@@ -7,4 +7,11 @@ class PhotoPolicy
     @user = user
     @photo = photo
   end
+
+  def show?
+    user == photo.owner ||
+      !photo.owner.private? ||
+      photo.owner.followers.include?(user)
+  end
+
 end
