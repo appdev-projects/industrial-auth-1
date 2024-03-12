@@ -25,7 +25,7 @@ class UserPolicy < ApplicationPolicy
   end
 
   def hide_photo?
-    user.private?
+    #need to rework logic, breaking
   end
 
   def see_follow_request_button?
