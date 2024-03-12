@@ -50,8 +50,7 @@
       </div>
 
       <div class="col">
-      <% if current_user == user%>
-
+      <% if policy(user).show_pending?%>
         <%=
           link_to "#",
             data: { 
