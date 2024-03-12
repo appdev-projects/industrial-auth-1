@@ -3,6 +3,7 @@ class FollowRequestsController < ApplicationController
 
   # GET /follow_requests or /follow_requests.json
   def index
+    authorize (@follow_request || FollowRequest)
     @follow_requests = policy_scope(FollowRequest)
   end
 

@@ -1,13 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: %i[ show liked feed followers following discover ]
-
-  def feed
-    authorize @user, :feed?
-  end
-
-  def discover
-    authorize @user, :discover?
-  end
+  before_action { authorize @user }
 
   def see_follow_request_button
     authorize @user
