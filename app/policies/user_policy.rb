@@ -19,6 +19,10 @@ class UserPolicy < ApplicationPolicy
   def discover?
     user == current_user
   end
+  
+  def liked?
+    true
+  end
 
   def see_follow_request_button?
     user != current_user

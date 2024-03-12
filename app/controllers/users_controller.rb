@@ -6,6 +6,9 @@ class UsersController < ApplicationController
     authorize @user
   end
 
+  def liked
+  end
+
   private
 
     def set_user
