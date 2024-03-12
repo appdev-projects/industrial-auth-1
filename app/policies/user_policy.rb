@@ -24,6 +24,10 @@ class UserPolicy < ApplicationPolicy
     true
   end
 
+  def hide_photo?
+    user.private?
+  end
+
   def see_follow_request_button?
     user != current_user
   end

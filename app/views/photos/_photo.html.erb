@@ -1,3 +1,4 @@
+<% if !policy(@user).hide_photo? %>
 <div class="card">
   <div class="card-body py-3 d-flex align-items-center justify-content-between">
     <h2 class="h5 m-0 p-0 d-flex align-items-center">
@@ -35,3 +36,4 @@
     <%= render "comments/form", comment: photo.comments.build %>
   </div>
 </div>
+<% end %>

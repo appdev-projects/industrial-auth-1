@@ -9,6 +9,9 @@ class UsersController < ApplicationController
   def liked
   end
 
+  def hide_photo
+  end
+
   private
 
     def set_user
