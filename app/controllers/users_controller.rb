@@ -9,7 +9,7 @@ class UsersController < ApplicationController
   def liked
   end
 
-  def hide_photo
+  def view_private_profile_content
   end
 
   private

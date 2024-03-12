@@ -24,11 +24,11 @@ class UserPolicy < ApplicationPolicy
     true
   end
 
-  def hide_photo?
-    #need to rework logic, breaking
+  def view_private_profile_content?
+    user.private? && user != current_user
   end
 
   def see_follow_request_button?
-    user != current_user
+    !user.private? || current_user != user || user.followers.include?(current_user)
   end
 end
