@@ -44,7 +44,7 @@ class User < ApplicationRecord
 
   has_many :pending_received_follow_requests, -> { pending }, foreign_key: :recipient_id, class_name: "FollowRequest"
 
-  has_many :likes, foreign_key: :fan_id, dependent: :destroy
+  has_many :likes, foreign_key: :fan_id, class_name: "Like", dependent: :destroy
 
   has_many :own_photos, foreign_key: :owner_id, class_name: "Photo", dependent: :destroy
 
