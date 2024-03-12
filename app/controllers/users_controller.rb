@@ -8,6 +8,11 @@ class UsersController < ApplicationController
   def discover
     authorize @user, :discover?
   end
+
+  def see_follow_request_button
+    authorize @user
+  end
+
   private
 
     def set_user
