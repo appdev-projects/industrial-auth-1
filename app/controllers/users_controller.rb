@@ -3,10 +3,6 @@ class UsersController < ApplicationController
   before_action { authorize @user }
 
   def see_follow_request_button
-    authorize @user
-  end
-
-  def liked
   end
 
   def view_private_profile_content

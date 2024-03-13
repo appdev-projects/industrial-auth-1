@@ -9,7 +9,7 @@ class CommentPolicy < ApplicationPolicy
   end
 
   def show?
-    user == comment.author
+    user == comment.author || PhotoPolicy.new(user, comment.photo).show?
   end
 
   def create?
