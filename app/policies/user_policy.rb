@@ -25,7 +25,8 @@ class UserPolicy < ApplicationPolicy
   end
 
   def view_private_profile_content?
-    user.private? && user != current_user
+    Rails.logger.debug "Private: #{user.private?}, Current User: #{current_user.id}, User: #{user.id}, Followers: #{user.followers.map(&:id)}"
+    !user.private? || user == current_user || user.followers.include?(current_user)
   end
 
   def see_follow_request_button?
