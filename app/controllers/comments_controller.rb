@@ -21,10 +21,6 @@ class CommentsController < ApplicationController
     authorize @comment
   end
 
-  def view_edit_trash_icon
-    authorize @com
-  end
-
   # POST /comments or /comments.json
   def create
     @comment = Comment.new(comment_params)
