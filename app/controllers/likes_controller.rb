@@ -1,5 +1,11 @@
 class LikesController < ApplicationController
   before_action :set_like, only: %i[ show edit update destroy ]
+  before_action :is_an_autorized_user, only: [:destroy, :create]
+
+  def is_an_autorized_user
+      if current_user == @like.owner || !@like.owner.private? || current_user.leaders.include?(@like.owner)
+            redirect_back(fallback_location: root_url, alert: "Not authorized")
+  end
 
   # GET /likes or /likes.json
   def index
