@@ -17,11 +17,15 @@ class CommentPolicy < ApplicationPolicy
   end
 
   def update?
-    user == comment.author
+    user == comment.author || user == comment.photo.owner
   end
 
   def destroy?
-    user == comment.author
+    user == comment.author || user == comment.photo.owner
+  end
+
+  def view_edit_trash_icon?
+    user == comment.author  || user == comment.photo.owner
   end
 
 end

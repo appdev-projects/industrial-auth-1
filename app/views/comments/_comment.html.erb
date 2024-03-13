@@ -10,7 +10,7 @@
       <p><%= comment.body %></p>
     </div>
     <div>
-      <% if policy(comment).show? %>
+      <% if policy(comment).view_edit_trash_icon? %>
         <%= link_to edit_comment_path(comment), class: "btn btn-link btn-sm text-muted" do %>
           <i class="fas fa-edit fa-fw"></i>
         <% end %>
