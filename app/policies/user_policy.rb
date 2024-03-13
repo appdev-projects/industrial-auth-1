@@ -29,6 +29,6 @@ class UserPolicy < ApplicationPolicy
   end
 
   def see_follow_request_button?
-    !user.private? || current_user != user || user.followers.include?(current_user)
+    current_user != user
   end
 end
