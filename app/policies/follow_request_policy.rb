@@ -11,11 +11,11 @@ class FollowRequestPolicy < ApplicationPolicy
   end
 
   def destroy?
-    user == follow_request.sender
+    user == follow_request.sender || user == follow_request.recipient
   end
 
   def update?
-    user == follow_request.recipient
+    user == follow_request.recipient || user == follow_request.sender
   end
 
   # Scope class
