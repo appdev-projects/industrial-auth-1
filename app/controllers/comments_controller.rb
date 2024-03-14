@@ -1,5 +1,6 @@
 class CommentsController < ApplicationController
   before_action :set_comment, only: %i[ show edit update destroy ]
+  before_action :authorize_comment, only: [:edit, :update, :destroy]
 
   # GET /comments or /comments.json
   def index
@@ -17,7 +18,6 @@ class CommentsController < ApplicationController
 
   # GET /comments/1/edit
   def edit
-    authorize @comment
   end
 
   # POST /comments or /comments.json
@@ -40,7 +40,6 @@ class CommentsController < ApplicationController
 
   # PATCH/PUT /comments/1 or /comments/1.json
   def update
-    authorize @comment
     respond_to do |format|
       if @comment.update(comment_params)
         format.html { redirect_to root_url, notice: "Comment was successfully updated." }
@@ -54,7 +53,6 @@ class CommentsController < ApplicationController
 
   # DELETE /comments/1 or /comments/1.json
   def destroy
-    authorize @comment
     @comment.destroy
     respond_to do |format|
       format.html { redirect_back fallback_location: root_url, notice: "Comment was successfully destroyed." }
@@ -71,5 +69,9 @@ class CommentsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def comment_params
       params.require(:comment).permit(:author_id, :photo_id, :body)
+    end
+
+    def authorize_comment
+      authorize @comment
     end
 end

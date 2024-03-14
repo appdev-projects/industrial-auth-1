@@ -1,6 +1,6 @@
 class FollowRequestsController < ApplicationController
   before_action :set_follow_request, only: %i[ show edit update destroy ]
-  before_action :authorize_follow_request, only: [:show, :edit, :update, :destroy]
+  before_action :authorize_follow_request
 
   def index
     @follow_requests = FollowRequest.all
@@ -61,7 +61,7 @@ class FollowRequestsController < ApplicationController
     end
 
     def authorize_follow_request
-      authorize @follow_request
+      authorize @follow_request || FollowRequest
     end
 
 end
