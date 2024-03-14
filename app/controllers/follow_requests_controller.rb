@@ -1,5 +1,6 @@
 class FollowRequestsController < ApplicationController
   before_action :set_follow_request, only: %i[ show edit update destroy ]
+  before_action { authorize @follow_request || FollowRequest }
 
   # GET /follow_requests or /follow_requests.json
   def index
@@ -24,6 +25,7 @@ class FollowRequestsController < ApplicationController
     @follow_request = FollowRequest.new(follow_request_params)
     @follow_request.sender = current_user
 
+    
     respond_to do |format|
       if @follow_request.save
         format.html { redirect_back fallback_location: root_url, notice: "Follow request was successfully created." }
@@ -66,5 +68,6 @@ class FollowRequestsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def follow_request_params
       params.require(:follow_request).permit(:recipient_id, :sender_id, :status)
-    end
+      end
+
 end
