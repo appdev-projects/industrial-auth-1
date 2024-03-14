@@ -6,14 +6,21 @@ def initialize(current_user, user)
     @user = user
 end
 
+
 def show?
+true
+end
+
+def show_profile_nav?
   user == current_user ||
   !user.private? || 
   user.followers.include?(current_user)
 end
 
+
+
 def show_pending?
-  current_user == user
+  user == current_user 
 end
 
 def feed?
@@ -33,5 +40,6 @@ end
 def liked?
   user == current_user ||
   !user.private? || 
-  user.followers.include?(current_user)end
+  user.followers.include?(current_user)
+end
 end

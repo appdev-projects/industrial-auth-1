@@ -3,7 +3,8 @@ class PhotosController < ApplicationController
 
   # GET /photos or /photos.json
   def index
-    @photos = Photo.all
+    @photos = policy_scope(Photo)
+    authorize Photo
   end
 
   # GET /photos/1 or /photos/1.json
@@ -14,8 +15,7 @@ class PhotosController < ApplicationController
   # GET /photos/new
   def new
     @photo = Photo.new
-    @user = current_user
-    authorize @user, :new?
+    authorize Photo
   end
 
   # GET /photos/1/edit
@@ -27,7 +27,7 @@ class PhotosController < ApplicationController
   def create
     @photo = Photo.new(photo_params)
     @photo.owner = current_user
-    authorize @photo.owner, :new?
+    authorize @photo
 
     respond_to do |format|
       if @photo.save

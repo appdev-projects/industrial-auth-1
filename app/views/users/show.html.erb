@@ -4,12 +4,13 @@
   </div>
 </div>
 
-<% if policy(@user).show? %>
+<%if policy(@user).show_profile_nav?%>
 <div class="row mb-2">
   <div class="col-md-6 offset-md-3">
     <%= render "users/profile_nav", user: @user %>
   </div>
 </div>
+
 
 <% @user.own_photos.each do |photo| %>
   <div class="row mb-4">
@@ -17,5 +18,5 @@
       <%= render "photos/photo", photo: photo %>
     </div>
   </div>
-<% end %>
+<%end%>
 <%end%>

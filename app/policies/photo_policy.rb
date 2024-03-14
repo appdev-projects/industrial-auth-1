@@ -6,6 +6,18 @@ class PhotoPolicy < ApplicationPolicy
     @photo = photo
   end
 
+  def new?
+    create?
+  end
+
+  def create?
+    !user.nil?
+  end
+
+  def index?
+    true
+  end
+
   def show?
     user == photo.owner ||
      !photo.owner.private? ||
@@ -22,6 +34,12 @@ class PhotoPolicy < ApplicationPolicy
 
   def edit?
       update?
+  end
+
+  class Scope < Scope
+    def resolve
+      scope.where(owner: user)
+    end
   end
 
 end
