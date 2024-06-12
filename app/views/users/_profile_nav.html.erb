@@ -1,3 +1,4 @@
+<% if policy(@user).view_private_profile_content? %>
 <ul class="nav nav-tabs nav-justified mb-1">    
   <li class="nav-item">
     <%=
@@ -25,4 +26,5 @@
       </span>
     <% end %>
   </li>
-</ul> 
+</ul>
+<% end %>
