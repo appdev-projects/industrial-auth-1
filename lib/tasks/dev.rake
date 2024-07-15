@@ -23,7 +23,7 @@ task sample_data: :environment do
   people.each do |person|
     username = person.fetch(:first_name).downcase
 
-    user = User.create(
+    User.create(
       email: "#{username}@example.com",
       password: "password",
       username: username.downcase,
@@ -44,14 +44,14 @@ task sample_data: :environment do
   users.each do |first_user|
     users.each do |second_user|
       if rand < 0.75
-        first_user_follow_request = first_user.sent_follow_requests.create(
+        first_user.sent_follow_requests.create(
           recipient: second_user,
           status: FollowRequest.statuses.values.sample
         )
       end
 
       if rand < 0.75
-        second_user_follow_request = second_user.sent_follow_requests.create(
+        second_user.sent_follow_requests.create(
           recipient: first_user,
           status: FollowRequest.statuses.values.sample
         )
@@ -72,7 +72,7 @@ task sample_data: :environment do
         end
 
         if rand < 0.25
-          comment = photo.comments.create(
+          photo.comments.create(
             body: Faker::Quote.jack_handey,
             author: follower
           )
