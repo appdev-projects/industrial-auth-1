@@ -30,8 +30,9 @@
       <%= render "comments/comment", comment: comment %>
     <% end %>
   </ul>
-  
+  <% if current_user == photo.owner || !photo.owner.private? || current_user.leaders.include?(photo.owner)%>
   <div class="card-body">
     <%= render "comments/form", comment: photo.comments.build %>
   </div>
+  <% end %>
 </div>
