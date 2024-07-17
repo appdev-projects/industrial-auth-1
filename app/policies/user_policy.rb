@@ -12,8 +12,38 @@ class UserPolicy
      user.followers.include?(current_user)
   end
 
+  def new?
+    create?
+  end
+
   def edit?
+    update?
+  end
+
+  def create?
+    true
+  end
+
+  def update?
     user == current_user
+  end
+
+  def destroy?
+    user == current_user
+  end
+
+  def followers?
+    true
+  end
+
+  def following?
+    true
+  end
+
+  def liked?
+    user == current_user ||
+    !user.private? ||
+    user.followers.include?(current_user)
   end
 
   def feed?
