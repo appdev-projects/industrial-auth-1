@@ -13,7 +13,9 @@
 
   <%= form.hidden_field :recipient_id %>
 
-  <div class="actions">
-    <%= form.submit "Follow", class: "btn btn-outline-secondary btn-block" %>
-  </div>
+  <% if policy(@user).see_follow_request_button? %>
+    <div class="actions">
+      <%= form.submit "Follow", class: "btn btn-outline-secondary btn-block" %>
+    </div>
+  <% end %>
 <% end %>
