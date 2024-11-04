@@ -8,17 +8,18 @@ task sample_data: :environment do
   Photo.delete_all
   User.delete_all
 
-  people = Array.new(10) do
-    {
-      first_name: Faker::Name.first_name,
-      last_name: Faker::Name.last_name,
-    }
-  end
-
-  people << { first_name: "Alice", last_name: "Smith" }
-  people << { first_name: "Bob", last_name: "Smith" }
-  people << { first_name: "Carol", last_name: "Smith" }
-  people << { first_name: "Doug", last_name: "Smith" }
+  people = [
+    { first_name: "Alice", last_name: "Smith" },
+    { first_name: "Bob", last_name: "Smith" },
+    { first_name: "Carol", last_name: "Smith" },
+    { first_name: "Doug", last_name: "Smith" },
+    { first_name: "Eve", last_name: "Johnson" },
+    { first_name: "Frank", last_name: "Wilson" },
+    { first_name: "Grace", last_name: "Brown" },
+    { first_name: "Henry", last_name: "Davis" },
+    { first_name: "Ivy", last_name: "Miller" },
+    { first_name: "Jack", last_name: "Anderson" }
+  ]
 
   people.each do |person|
     username = person.fetch(:first_name).downcase
@@ -28,13 +29,9 @@ task sample_data: :environment do
       password: "password",
       username: username.downcase,
       name: "#{person[:first_name]} #{person[:last_name]}",
-      bio: Faker::Lorem.paragraph(
-        sentence_count: 2,
-        supplemental: true,
-        random_sentences_to_add: 4
-      ),
-      website: Faker::Internet.url,
-      private: [true, false].sample,
+      bio: "#{person[:first_name]} is a sample user.",
+      website: "https://#{username}.example.com",
+      private: person[:first_name].in?(["Bob", "Carol", "Eve", "Ivy"]),
       avatar_image: "https://robohash.org/#{username}"
     )
   end
@@ -43,37 +40,39 @@ task sample_data: :environment do
 
   users.each do |first_user|
     users.each do |second_user|
-      if rand < 0.75
-        first_user_follow_request = first_user.sent_follow_requests.create(
+      next if first_user == second_user
+
+      if first_user.username.in?(["doug", "bob", "carol"])
+        first_user.sent_follow_requests.create(
           recipient: second_user,
-          status: FollowRequest.statuses.values.sample
+          status: "accepted"
         )
       end
 
-      if rand < 0.75
-        second_user_follow_request = second_user.sent_follow_requests.create(
+      if second_user.username.in?(["alice", "eve", "frank"])
+        second_user.sent_follow_requests.create(
           recipient: first_user,
-          status: FollowRequest.statuses.values.sample
+          status: "pending"
         )
       end
     end
   end
 
   users.each do |user|
-    rand(15).times do
+    3.times do |i|
       photo = user.own_photos.create(
-        caption: Faker::Quote.jack_handey,
-        image: "/#{rand(1..10)}.jpeg"
+        caption: "Sample photo #{i + 1} by #{user.name}",
+        image: "/#{(i % 10) + 1}.jpeg"
       )
 
       user.followers.each do |follower|
-        if rand < 0.5
+        if follower.username.in?(["alice", "bob", "eve", "frank"])
           photo.fans << follower
         end
 
-        if rand < 0.25
-          comment = photo.comments.create(
-            body: Faker::Quote.jack_handey,
+        if follower.username.in?(["carol", "doug", "grace"])
+          photo.comments.create(
+            body: "Great photo, #{user.name}! ##{i + 1}",
             author: follower
           )
         end
